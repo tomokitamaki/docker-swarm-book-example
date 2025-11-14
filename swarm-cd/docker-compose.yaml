@@ -8,9 +8,13 @@ services:
         target: /app/repos.yaml
       - source: swarm-cd-stacks
         target: /app/stacks.yaml
+      - source: swarm-cd-config
+        target: /app/config.yaml
     # traefik setting
     networks:
       - traefik_proxy
+    ports:
+      - 8080
     deploy:
       placement:
         constraints:
@@ -25,7 +29,7 @@ services:
         # TLSを有効化
         - "traefik.http.routers.swarm-cd.tls=true"
         # TraefikにSwarm-CDのポート番号を公開
-        - traefik.http.services.swarm-cd.loadbalancer.server.port=80
+        - traefik.http.services.swarm-cd.loadbalancer.server.port=8080
 
 networks:
   traefik_proxy:
@@ -36,4 +40,6 @@ configs:
   swarm-cd-repos:
     external: true
   swarm-cd-stacks:
+    external: true
+  swarm-cd-config:
     external: true
