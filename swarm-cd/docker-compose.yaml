@@ -25,7 +25,7 @@ services:
         # TLSを有効化
         - "traefik.http.routers.swarm-cd.tls=true"
         # TraefikにSwarm-CDのポート番号を公開
-        - traefik.http.services.swarm-cd.loadbalancer.server.port=8080
+        - traefik.http.services.swarm-cd.loadbalancer.server.port=80
 
 networks:
   traefik_proxy:
