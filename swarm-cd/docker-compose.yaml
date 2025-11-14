@@ -29,6 +29,7 @@ services:
 
 networks:
   traefik_traefik_proxy:
+    name: traefik_traefik_proxy
     external: true
 
 configs:
