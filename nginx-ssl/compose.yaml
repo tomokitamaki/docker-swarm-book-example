@@ -1,0 +1,19 @@
+services:
+  nginx:
+    image: nginx:latest
+    configs:
+      - source: config
+        target: /etc/nginx/conf.d/default.conf
+    secrets:
+      - source: ssl_cert
+        target: /ssl/www.example.com.crt
+      - source: ssl_key
+        target: /ssl/www.example.com.key
+configs:
+  config: 
+    file: configs/nginx.conf
+secrets:
+  ssl_cert:
+    file: secrets/www.example.com.crt
+  ssl_key:
+    file: secrets/www.example.com.key

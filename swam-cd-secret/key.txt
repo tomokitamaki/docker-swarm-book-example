@@ -1,0 +1,3 @@
+# created: 2025-11-15T07:36:02+09:00
+# public key: age1mgl77jywslkvk3kknqrxslmzvjqmmtyz4nexfpvh2pz4l8tp5vtqm7exlf
+AGE-SECRET-KEY-10E25KYA78YEZCV2MCTUKJ9UTYZ2L46FKJ2FXGAG7UZY7DDKA3XUSL95GM4
