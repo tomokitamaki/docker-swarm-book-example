@@ -24,18 +24,9 @@ services:
       timeout: 5s
       retries: 5
 
-# volumes:
-#   vol-data:
-#     external: true
-
-# docker volume create --driver local --opt type=nfs --opt o=addr=172.21.9.222,rw --opt device=:/docker-vol vol-data
 volumes:
   vol-data:
-    driver: local
-    driver_opts:
-      type: nfs
-      o: "addr=172.21.9.222,rw"
-      device: ":/docker-vol/postgresql"
+    external: true
 
 networks:
   postgres_network:
