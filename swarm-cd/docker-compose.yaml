@@ -28,7 +28,7 @@ services:
         - traefik.http.services.swarm-cd.loadbalancer.server.port=8080
 
 networks:
-  traefik_proxy:
+  traefik_traefik_proxy:
     external: true
 
 configs:
