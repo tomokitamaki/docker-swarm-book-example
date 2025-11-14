@@ -84,7 +84,7 @@ services:
         - "traefik.enable=true"
 
         # ダッシュボードルーター
-        - "traefik.http.routers.dashboard.rule=Host(`dashboard.swarm.localhost`)"
+        - "traefik.http.routers.dashboard.rule=Host(`dashboard.swarm.internal`)"
         - "traefik.http.routers.dashboard.entrypoints=websecure"
         - "traefik.http.routers.dashboard.service=api@internal"
         - "traefik.http.routers.dashboard.tls=true"
@@ -106,7 +106,7 @@ services:
         # Traefikのサービスディスカバリーを有効化
         - "traefik.enable=true"
         # Whoamiルータールールを定義
-        - "traefik.http.routers.whoami.rule=Host(`whoami.swarm.localhost`)"
+        - "traefik.http.routers.whoami.rule=Host(`whoami.swarm.internal`)"
         # HTTPSエントリーポイントでWhoamiを公開
         - "traefik.http.routers.whoami.entrypoints=websecure"
         # TLSを有効化
