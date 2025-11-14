@@ -12,6 +12,7 @@ services:
       placement:
         constraints:
           - node.role == manager
+          - node.hostname == swarm-01
       # labels:
       #   # Traefikのサービスディスカバリーを有効化
       #   - "traefik.enable=true"
