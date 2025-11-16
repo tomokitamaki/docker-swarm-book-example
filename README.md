@@ -1,11 +1,12 @@
-# Docker Swarm サンプル集
+# Docker Swarmで始めるお手軽コンテナ運用 - サンプルコード
 
-このリポジトリは、Docker Swarmの学習用サンプル集です。基本的な使い方から高度な設定まで、実践的なサンプルを提供しています。
+このリポジトリは、書籍「Docker Swarmで始めるお手軽コンテナ運用」のサンプルコード集です。
+Docker Swarmを使った実践的なコンテナオーケストレーションの手法を学ぶことができます。
 
 ## 必要な環境
 
 - Docker Engine 20.10以上
-- Docker Swarm モード有効
+- Docker Swarm モード有効化済み
 
 ### Swarmモードの初期化
 
@@ -13,74 +14,100 @@
 # Swarmマネージャーノードの初期化
 docker swarm init
 
-# ワーカーノードの追加（マネージャーノードで実行）
+# ワーカーノードの追加（マネージャーノードで実行してトークンを取得）
 docker swarm join-token worker
 ```
 
 ## サンプル一覧
 
-### 01. 基本的なサービスデプロイ
+### nginx - 基本的なNginxサービス
 
-シンプルなWebアプリケーション（Nginx、Redis等）のデプロイ方法を学びます。
+Docker SwarmでConfigsを使用した基本的なNginxサービスのデプロイ例です。
 
-- サービスの作成と削除
-- ポートの公開
-- レプリカの基本設定
+- Docker Configsの使用方法
+- 設定ファイルの外部化
 
-📁 `examples/01-basic-service/`
+📁 `nginx/`
 
-### 02. スタック構成
+### nginx-ssl - SSL/TLS対応Nginx
 
-Docker Composeファイルを使用した複数サービスのスタックデプロイを学びます。
+SSL証明書をSecretsで管理するNginxサービスのデプロイ例です。
 
-- docker-compose.ymlの作成
-- スタックのデプロイと管理
-- サービス間の連携
+- Docker Secretsの使用方法
+- SSL証明書の安全な管理
+- SOPS（Secrets OPerationS）を使った暗号化
 
-📁 `examples/02-stack/`
+📁 `nginx-ssl/`
 
-### 03. スケーリング・HA構成
+### postgresql - PostgreSQLデータベース
 
-高可用性とスケーラビリティを実現する方法を学びます。
+環境変数とボリュームを使用したPostgreSQLのデプロイ例です。
 
-- レプリカ数の動的変更
-- ローリングアップデート
-- ヘルスチェック
-- 負荷分散
+- 環境変数による設定管理
+- 永続化ボリュームの使用
+- データベースの初期化
 
-📁 `examples/03-scaling-ha/`
+📁 `postgresql/`
 
-### 04. 高度な設定
+### traefik - リバースプロキシ
 
-実運用で必要となる高度な設定を学びます。
+Traefikを使ったリバースプロキシとロードバランサーの設定例です。
 
-- シークレット管理
-- Config管理
-- ボリュームとストレージ
-- オーバーレイネットワーク
-- 配置戦略と制約
+- 動的なサービスディスカバリー
+- SSL/TLS証明書の管理
+- ルーティング設定
 
-📁 `examples/04-advanced/`
+📁 `traefik/`
+
+### swarm-cd - GitOpsベースのデプロイ
+
+SwarmCDを使ったGitOpsスタイルのデプロイメント例です。
+
+- GitリポジトリからのCD（継続的デリバリー）
+- 自動デプロイメント
+- スタック管理の自動化
+
+📁 `swarm-cd/`
+
+### swarm-cd-secret - Secretsを使ったGitOps
+
+SwarmCDとSOPSを組み合わせた、暗号化されたSecretsを扱うデプロイメント例です。
+
+- 暗号化されたSecretsの管理
+- age暗号化の使用
+- 安全なGitOpsワークフロー
+
+📁 `swarm-cd-secret/`
 
 ## 使い方
 
-各サンプルディレクトリに移動して、READMEの手順に従ってください。
+各サンプルディレクトリに移動して、サービスをデプロイしてください。
 
 ```bash
-cd examples/01-basic-service
-cat README.md
+# 例：Nginxサービスのデプロイ
+cd nginx
+docker stack deploy -c compose.yaml nginx
+
+# デプロイ確認
+docker stack services nginx
+```
+
+デプロイスクリプトが含まれているサンプルでは、以下のように実行できます。
+
+```bash
+cd traefik
+./deploy.sh
 ```
 
 ## クリーンアップ
 
 ```bash
-# すべてのスタックを削除
-docker stack ls
+# 特定のスタックを削除
 docker stack rm <stack-name>
 
-# すべてのサービスを削除
-docker service ls
-docker service rm $(docker service ls -q)
+# すべてのスタックを確認して削除
+docker stack ls
+docker stack rm $(docker stack ls --format "{{.Name}}")
 
 # Swarmモードの無効化（開発環境の場合）
 docker swarm leave --force
@@ -111,10 +138,22 @@ docker network ls
 docker network inspect <network-name>
 ```
 
+### Secretsの問題
+
+```bash
+# Secrets一覧を確認
+docker secret ls
+
+# Secretsの詳細を確認
+docker secret inspect <secret-name>
+```
+
 ## 参考リソース
 
 - [Docker Swarm 公式ドキュメント](https://docs.docker.com/engine/swarm/)
 - [Docker Compose 仕様](https://docs.docker.com/compose/compose-file/)
+- [SOPS - Secrets OPerationS](https://github.com/mozilla/sops)
+- [SwarmCD](https://github.com/swarm-cd/swarm-cd)
 
 ## ライセンス
 
